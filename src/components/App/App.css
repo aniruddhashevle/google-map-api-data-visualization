@@ -1,3 +1,12 @@
 html { height: 100% }
 body { height: 100%; margin: 0; padding: 0; overflow: hidden; }
 #map { height: 100vh; }
+
+.app-wrapper {
+    display: flex;
+    flex: 1;
+}
+
+.filter-wrapper { flex: .3; }
+
+.map-wrapper { flex: .7; }

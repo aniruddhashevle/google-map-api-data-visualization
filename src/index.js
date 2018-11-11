@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import createReduxStore from './redux';
-import App from './components/App/App';
+import App from './components/App';
 import { importRequiredScripts } from './utils/google-map-apis';
 
 //Google map apis
