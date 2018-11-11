@@ -1,9 +1,17 @@
-import BOAT_RAMPS from '../../config/boat_ramps.json'
+import {
+    GET_BOAT_RAMP_DATA
+} from '../action-constants';
 
-const INITIAL_STATE = BOAT_RAMPS;
+const INITIAL_STATE = {
+    boatRamps: {}
+};
 
-export default function boadRamps(state = INITIAL_STATE, action) {
+export default function boatRampsData(state = INITIAL_STATE, action) {
     switch (action.type) {
+
+        case GET_BOAT_RAMP_DATA: {
+            return { ...state, boatRamps: action.data }
+        }
 
         default:
             return state;

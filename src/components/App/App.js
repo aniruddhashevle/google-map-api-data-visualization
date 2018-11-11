@@ -1,22 +1,22 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { initMap } from '../../utils/google-map-apis';
+import { getBoatRampData } from '../../redux/actions/boad-ramps-action';
 import './App.css';
 
 class App extends Component {
 
-    componentDidMount() {
+    async componentDidMount() {
         window.addEventListener('load', this.handleLoad);
+        await this.props.getBoatRampData();
     }
 
-    handleLoad = () => window.google && initMap(this.props.boadRamps);
+    handleLoad = () => window.google && initMap(this.props.boatRamps);
 
     render() {
         return (
             <div className="App">
-
                 <div id="map"></div>
-
             </div>
         );
     }
@@ -25,12 +25,14 @@ class App extends Component {
 function mapStateToProps(reduxState) {
     const {
         rootReducer: {
-            boadRamps
+            boatRampsData: {
+                boatRamps
+            }
         }
     } = reduxState;
     return {
-        boadRamps
+        boatRamps
     }
 }
 
-export default connect(mapStateToProps, null)(App);
+export default connect(mapStateToProps, { getBoatRampData })(App);

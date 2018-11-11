@@ -1,0 +1,1 @@
+export const GET_BOAT_RAMP_DATA = 'GET_BOAT_RAMP_DATA';
