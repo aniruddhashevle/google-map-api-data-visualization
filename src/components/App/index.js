@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { initMap } from '../../utils/google-map-apis';
+import { initMap, addMarkers } from '../../utils/google-map-apis';
 import { getFilterConfig } from '../../utils/filters.js'
 import { getBoatRampData } from '../../redux/actions/boad-ramps-action';
 import Filters from '../Filters';
@@ -11,40 +11,39 @@ class App extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            filterConfig: null
+            filterConfig: null,
+            map: null
         }
+        this.map = null;
     }
 
     async componentDidMount() {
         window.addEventListener('load', this.handleLoad);
         await this.props.getBoatRampData();
         let filterConfig = getFilterConfig(this.props.boatRamps);
-        console.log('filterConfig', filterConfig);
         this.setState({ filterConfig });
     }
 
-    handleLoad = () => window.google && initMap(this.props.boatRamps);
+    handleLoad = () => {
+        if (window.google)
+            this.setState({ map: initMap(this.props.boatRamps) });
+        // this.map = initMap(this.props.boatRamps);
+    }
 
-    onClickMaterialFilter = (e, item) => {
-        console.log('e cate', e, item);
-        this.placeMarkerAndPanTo(e.latLng);
-
+    onClickMaterialFilter = (e, data, map) => {
+        e.preventDefault();
+        e.stopPropagation();
+        const {
+            customisedData: {
+                first_coordinate,
+                markerImageURL,
+                colorCode
+            }
+        } = data
+        addMarkers(first_coordinate, colorCode, map);
     }
 
     onClickAreaFilter = (e) => {
-        console.log('e area', e);
-    }
-
-    // map.addListener('click', function(e) {
-    //     placeMarkerAndPanTo(e.latLng, map);
-    // });
-
-    placeMarkerAndPanTo(latLng, map) {
-        var marker = new window.google.maps.Marker({
-            position: latLng,
-            map: map
-        });
-        map.panTo(latLng);
     }
 
     render() {
@@ -54,6 +53,7 @@ class App extends Component {
                     onClickMaterialFilter={this.onClickMaterialFilter}
                     onClickAreaFilter={this.onClickAreaFilter}
                     filterConfig={this.state.filterConfig || {}}
+                    map={this.state.map}
                 />
                 <div className="map-wrapper">
                     <div id="map"></div>

@@ -1,8 +1,8 @@
-import {
-    AREA_RANGE_1,
-    AREA_RANGE_2,
-    AREA_RANGE_3
-} from '../config/constants';
+// import {
+//     AREA_RANGE_1,
+//     AREA_RANGE_2,
+//     AREA_RANGE_3
+// } from '../config/constants';
 
 function getRandomColor() {
     var length = 6;
@@ -14,16 +14,18 @@ function getRandomColor() {
 
 export function getFilterConfig(data) {
     let materialFilterConfig = {},
-        areaFilterConfig = {
+        // areaFilterConfig = {
 
-        },
+        // },
         customised = {};
     data.features.forEach((item, index) => {
         const {
             properties
         } = item;
 
-        let colorCode = getRandomColor();
+        let colorCode = getRandomColor(),
+            linkColorCode = colorCode.replace(/#/g, '')
+
 
         //Material config
         materialFilterConfig[properties.material] = { ...(materialFilterConfig[properties.material] || {}) };
@@ -31,7 +33,8 @@ export function getFilterConfig(data) {
         if (!materialFilterConfig[properties.material] || Object.keys(materialFilterConfig[properties.material]).length === 0) {
             customised = {
                 colorCode,
-                markerImageURL: `http://www.googlemapsmarkers.com/v1/${colorCode}/`,
+                markerImageURL: `http://www.googlemapsmarkers.com/v1/${linkColorCode}/`,
+                first_coordinate: item.geometry.coordinates[0][0][0]
             }
             materialFilterConfig[properties.material].customisedData = customised;
         }
@@ -42,7 +45,6 @@ export function getFilterConfig(data) {
 
         //Area config
 
-    })
-    console.log('materialFilterConfig', materialFilterConfig);
+    });
     return materialFilterConfig;
 }

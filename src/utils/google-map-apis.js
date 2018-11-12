@@ -13,11 +13,30 @@ export function initMap(geoJSON) {
         zoom: 2
     });
     loadGeoJsonString(geoJSON, map);
+    return map;
 }
 
 function loadGeoJsonString(geoString, map) {
     map.data.addGeoJson(geoString);
     zoom(map);
+}
+
+export function addMarkers(latLng, colorCode, map) {
+    let position = { lat: latLng[0], lng: latLng[1] };
+
+    // eslint-disable-next-line
+    var marker = new window.google.maps.Marker({
+        position,
+        map,
+        // icon: markerImageURL,
+        icon: {
+            path: window.google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
+            strokeColor: colorCode,
+            scale: 3
+        },
+    });
+    var panPoint = new window.google.maps.LatLng(latLng[0], latLng[1]);
+    map.panTo(panPoint);
 }
 
 /**

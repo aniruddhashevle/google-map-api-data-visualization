@@ -1,0 +1,23 @@
+.filter-wrapper {
+    padding: 10px 20px;
+}
+
+.material-details-wrapper {
+    border: 1px solid;
+    border-radius: 5px;
+    padding: 5px;
+}
+
+.material-details {
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    cursor: pointer;
+}
+
+.material-name,
+.material-count {
+    display: inline-block;
+    font-weight: bold;
+    font-size: 18px;
+}
